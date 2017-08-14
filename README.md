@@ -36,9 +36,27 @@ for current_set in xrange(MAX):
 
 ```
 This code is cycling through every possible permutation. 
-1) Each set, end_group(current_set) checks if this is a winning selection, i.e. we have chosen 3 cards from the same group. 
-2) decode_set(current_set) returns a list of True/False values where True represents if the card is chosen and False represents when the card isn't chose. 
-3) get_probs(decoded_set) uses the list just returned and finds the prob 
+```Python
+if end_group(current_set) is None:  #game not ended yet!
+```
+1) Each set, end_group(current_set) checks if this is a winning selection, i.e. we have chosen 3 cards from the same group. If we have, then we do nothing. If we don't have 3 from the same group, we continue.
+```Python
+decoded_set=decode_set(current_set)
+```
+2) decode_set(current_set) returns a list of True/False values where True represents if the card is chosen and False represents when the card isn't chosen. 
+```Python
+trans_probs=get_probs(decoded_set)
+```
+3) get_probs(decoded_set) uses the list just returned and returns a list of conditional probabilities of choosing the cards that were not selected
+
+```Python
+for i, is_set in enumerate(decoded_set):
+           if not is_set:
+              new_set=current_set | (1<<i) 
+              probs[new_set]+=probs[current_set]*trans_probs[i]
+```              
+              
+4) new_set is our current_set combined with a new card being chosen. For example, current set could be 110000100000, which means cards 0,1,and 6 have been chosen. If i is 6, which is 11 in binary
 
 #set representation int->list
 def decode_set(encoded):
