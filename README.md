@@ -58,6 +58,27 @@ for i, is_set in enumerate(decoded_set):
               
 4) new_set is our current_set combined with a new card being chosen. For example, current set could be 110000100000, which means cards 0,1,and 6 have been chosen. If i is 6, which is 11 in binary
 
+
+```Python
+#filtering wins:
+group_probs=[0.0]*4
+for current_set in xrange(MAX):
+   group_won=end_group(current_set)
+   if group_won is not None:
+      group_probs[group_won]+=probs[current_set]
+
+
+print zip(["Grand", "Major", "Minor", "Bonus"], group_probs)
+```
+We cycle through each state, using group_won to determine if we have chosen 3 cards from the same group on this current state.
+```Python
+if group_won is not None:
+      group_probs[group_won]+=probs[current_set]
+```
+This is used to calculate the total probability of each state. group_won returns 0 if 3 cards are chosen from the first group, 1 if 3 are chosen from the second group etc. This is adding the probability from that given state to the probability of choosing 3 from the given group.
+
+
+```Python
 #set representation int->list
 def decode_set(encoded):
     decoded=[False]*N
@@ -65,15 +86,24 @@ def decode_set(encoded):
         if encoded&(1<<i):
             decoded[i]=True
     return decoded
+    
+```
+This function cycles through all 12 positions and returns a list of True/False values where True are those cards that are chosen and False are those that are not.
 
-weights = [170000, 170000, 105, 170000, 170000, 215, 150000, 150000, 12000, 105000, 105000, 105000]     
+
+
+```Python
+weights = [170000, 170000, 105, 170000, 170000, 215, 150000, 150000, 12000, 105000, 105000, 105000]    
+```
+These are the initial weights of the 12 cards
+
 def get_probs(decoded_set):
     denom=float(sum((w for w,is_taken in zip(weights, decoded_set) if not is_taken)))
     return [w/denom if not is_taken else 0.0 for w,is_taken in zip(weights, decoded_set)]
 
 def end_group(encoded_set):
     for i in xrange(4):
-       whole_group =  7<<(3*i) #7=..000111, 56=00111000 and so on
+       whole_group =  7<<(3*i) 
        if (encoded_set & whole_group)==whole_group:
            return i
     return None
@@ -84,13 +114,5 @@ def end_group(encoded_set):
 
 
 
-#filtering wins:
-group_probs=[0.0]*4
-for current_set in xrange(MAX):
-   group_won=end_group(current_set)
-   if group_won is not None:
-      group_probs[group_won]+=probs[current_set]
 
-
-print zip(["Grand", "Major", "Minor", "Bonus"], group_probs)
 
