@@ -56,9 +56,17 @@ for i, is_set in enumerate(decoded_set):
               probs[new_set]+=probs[current_set]*trans_probs[i]
 ```              
               
-4) new_set is our current_set combined with a new card being chosen. For example, current set could be 110000100000, which means cards 0,1,and 6 have been chosen. If i is 6, which is 11 in binary
+4) new_set is our current_set combined with a new card being chosen. For example, current set could be 010000100000, which means cards 0,1,and 6 have been chosen. If i is 6, we have 1<<6 which is the same as 1*2^6 which is 1000000 in binary. So, by using the
+```Python
+current_set | (1<<i)
+```
+we are comparing each bit(byte? I'm not really sure) using an or statement so the final result would be 110000100000, where the first digit has been replaced with a 1. 
 
+```Python
+And what's the probability of getting to this new step? The probability of being at the prior step(current_step) times the probability of picking that first card. If we already had that card, then it's 0 which makes perfect sense. 
+```
 
+#And here is where actually calculate the finally probabilities and print them. 
 ```Python
 #filtering wins:
 group_probs=[0.0]*4
@@ -77,6 +85,9 @@ if group_won is not None:
 ```
 This is used to calculate the total probability of each state. group_won returns 0 if 3 cards are chosen from the first group, 1 if 3 are chosen from the second group etc. This is adding the probability from that given state to the probability of choosing 3 from the given group.
 
+
+
+#Below are the functions that have already been used in greater detail
 
 ```Python
 #set representation int->list
@@ -97,19 +108,23 @@ weights = [170000, 170000, 105, 170000, 170000, 215, 150000, 150000, 12000, 1050
 ```
 These are the initial weights of the 12 cards
 
+```Python
 def get_probs(decoded_set):
     denom=float(sum((w for w,is_taken in zip(weights, decoded_set) if not is_taken)))
     return [w/denom if not is_taken else 0.0 for w,is_taken in zip(weights, decoded_set)]
+```
+The denom line is summing all of the values where we have a False, i.e. the card was not chosen. the return line is returning a list of conditional probabilities of choosing each of the cards that have yet to be selected. 
 
+
+```Python
 def end_group(encoded_set):
     for i in xrange(4):
        whole_group =  7<<(3*i) 
        if (encoded_set & whole_group)==whole_group:
            return i
     return None
+```
 
-
-#MAIN: dynamic program:
 
 
 
