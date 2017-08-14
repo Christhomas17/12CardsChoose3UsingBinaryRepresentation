@@ -1,7 +1,7 @@
 # 12CardsChoose3UsingBinaryRepresentation
-You have 12 cards, comprising 4 groups of 3 cards. We have to find the probability of choosing an entire group.
+You have 12 cards, comprising 4 groups of 3 cards. We have to find the probability of choosing an entire group. For example, we could have [Biggest,Biggest,Biggest,Big, Big,Big, Small,Small,Small, Smallest, Smallest, Smallest]. We need to find the probability of choosing 3 biggest, 3 big, 3 small or 3 smallest before choosing 3 of the other kinds. 
 
-First and foremost, I am taking no credit for creating this. User ead[https://stackoverflow.com/users/5769463/ead] created this in response to a question that I asked on Stackoverflow. I am only posting this here in order to create, what I consider, better documention about his method. 
+First and foremost, I am taking no credit for creating this. User ead[https://stackoverflow.com/users/5769463/ead] created this in response to a question that I asked on Stackoverflow. I am only posting this here in order to create, what I consider, better documention about his method in case anyone else, like myself, was very very confused by his method and also amazed at the quickness. This method takes well under a second where as an R script using no functions takes a few minutes and a poorly designed Python script takes > 20 minutes. 
 
 I have changed some of his function names for better readability and I have added comments but this is again, completely his code. 
 
