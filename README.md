@@ -140,7 +140,9 @@ This line took me a while to figure out until I simply did the calculations.
 | 2 | 448     |    111000000 |
 | 3 | 3584    |    111000000000 |
 
-So as you can see, the whole_group variable 
+So, for example, if encoded_set = 2301(a random pick that I know is a winning set). In python, format(2301,'b') will give you the binary represntation,  '100011111101'. Now if i = 0, whole_group = 111. Binary comparisions start from left to right, so this would compare 000,000,000,111(from whole_group) to 100011111101(from encoded_set). Those zeros are added to the "end" of whole_group because the lengths of the numbers are not the same. & will compare bit by bit(I think of this as a digit). If both are 1, then the result is 1 and 0 otherwise. So this returns a final result of 000,000,000,101. We check to see if this is the same as whole_group which it obviously isn't and then iterate i. 
+Now, if i = 1, we get whole_ group = 111,000 and encoded_set = 100011111101. The final result will be 000,000,111,000 which is exactly the same as whole group and therefore we have a match. 
+
 
 
 
