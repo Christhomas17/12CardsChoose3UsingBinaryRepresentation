@@ -125,6 +125,23 @@ def end_group(encoded_set):
     return None
 ```
 
+This function is used to find those groupings where 3 cards are chosen from the same group, i.e. the first 3 cards, the next 3 cards and so on. Encoded set will be an integer between 0 and 2^(max number of cards. In this case 12)-1.We are subtracting 1 because Python starts counting at 0. 
+
+```Python
+whole_group =  7<<(3*i) 
+```
+
+This line took me a while to figure out until I simply did the calculations. 
+
+| i        | Integer Value           | Binary Representation  |
+|:------------- |:-------------:| -----:|
+| 0     | 7 | 111 |
+| 1      | 56      |   111000 |
+| 2 | 448     |    111000000 |
+| 3 | 3584    |    111000000000 |
+
+So as you can see, the whole_group variable 
+
 
 
 
